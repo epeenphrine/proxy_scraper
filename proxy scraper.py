@@ -1,3 +1,6 @@
+print("hello_world")
+print("welcome to narnnia")
+print("there is no place like home")
 import urllib
 import bs4 as bs
 import pandas as pd
@@ -29,7 +32,8 @@ else:
 
 ## getting the site
 
-url = "https://free-proxy-list.net/" ## site containing the proxy.
+#url = "https://free-proxy-list.net/" ## site containing the proxy.
+url = "https://www.firexproxy.com/en"
 print(f"attempting to connect to: {url}")
 print(len(proxies_list))
 if proxies_list: ## check if proxies_list is empty or not
@@ -74,23 +78,27 @@ df.to_csv("proxiesraw.csv", index=True) ## saving df to csv
 
 
 df = pd.read_csv("proxiesraw.csv")
-df = df[['IP Address', "Port", "Https"]]  ## making df only show the columns we want to see.
+#df = df[['IP Address', "Port", "Https"]]  ## making df only show the columns we want to see.
+df = df[["IP address", "Port", "Protocol"]]
 df = df.dropna(axis=0, how='any', thresh=None, subset=None, inplace=False) ## dropping all rows with missing values
 
 def proxyINFO(df):
     proxyPort = df['Port'].tolist()        ## column "Port" to list
-    proxyIP = df["IP Address"].tolist()    ## column "IP Address" to list
-    HTTPS = df['Https'].tolist()           ## column "Https" to list
+    proxyIP = df["IP address"].tolist()    ## column "IP Address" to list
+    #HTTPS = df['Https'].tolist()           ## column "Https" to list
+    SOCKS5 = df["Protocol"].tolist()
     HTTPS1 = []                            #3 empty list to make new list for "https" , "http"
 
-    for item in HTTPS: ## convert HTTPS list with rows 'yes', 'no' to 'https', 'http' respectively and store them in HTTPS1 variable
+    #for item in HTTPS: ## convert HTTPS list with rows 'yes', 'no' to 'https', 'http' respectively and store them in HTTPS1 variable
+    for item in SOCKS5:
         if item == "yes":
             print (item)
             HTTPS1.append("https")  ## i write it like this because I'm going to concat all three components later. Right now it should print "'https':https://"
         else:
             print(item)
             HTTPS1.append("http")
-    print(proxyPort, proxyIP, HTTPS)
+    #print(proxyPort, proxyIP, HTTPS)
+    print (proxyPort, proxyIP, SOCKS5)
     return proxy_construct(proxyPort, proxyIP, HTTPS1)    ## this will start the next function and feed it the arguments proxyPort, ProxyIP, HTTPS1
 
 
