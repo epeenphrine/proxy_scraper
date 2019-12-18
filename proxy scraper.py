@@ -1,3 +1,6 @@
+print("hello_world")
+print("welcome to Narnia")
+print("there is no place like home")
 import urllib
 import bs4 as bs
 import pandas as pd
@@ -29,7 +32,8 @@ else:
 
 ## getting the site
 
-url = "https://free-proxy-list.net/" ## site containing the proxy.
+#url = "https://free-proxy-list.net/" ## site containing the proxy.
+url = input("Enter a proxyURL:")#prompt for a url
 print(f"attempting to connect to: {url}")
 print(len(proxies_list))
 if proxies_list: ## check if proxies_list is empty or not
@@ -71,30 +75,35 @@ df.to_csv("proxiesraw.csv", index=True) ## saving df to csv
 
 ## print(df[0].columns) ## choosing dataframe with the index 0 and checking all the columns. You may need to check columns if name of column have weird spacing and etc.
 ## df = df[0] ## setting df as the df[0] the data frame with the ip, port, and etc.
-
-
+for i in range(5):
+    print("THE NEXT ITEMS ARE CASE SENSITIVE")
+time.sleep(3)
+qwerty = input("EnterProtocolColumnName:")
+dorvak = input("EnterIPAdressColumnName:")
+hitter = input("EnterPortColumnName:")
 df = pd.read_csv("proxiesraw.csv")
-df = df[['IP Address', "Port", "Https"]]  ## making df only show the columns we want to see.
+df = df[[dorvak, hitter, qwerty]]  ## making df only show the columns we want to see.
+
 df = df.dropna(axis=0, how='any', thresh=None, subset=None, inplace=False) ## dropping all rows with missing values
 
 def proxyINFO(df):
-    proxyPort = df['Port'].tolist()        ## column "Port" to list
-    proxyIP = df["IP Address"].tolist()    ## column "IP Address" to list
-    HTTPS = df['Https'].tolist()           ## column "Https" to list
-    HTTPS1 = []                            #3 empty list to make new list for "https" , "http"
+    proxyPort = df[hitter].tolist()        ## column "Port" to list
+    proxyIP = df[dorvak].tolist()    ## column "IP Address" to list
+    PROTOCOL = df[qwerty].tolist()           ## column "Https" to list
+    PROTOCOL1 = []                            #3 empty list to make new list for "https" , "http"
 
-    for item in HTTPS: ## convert HTTPS list with rows 'yes', 'no' to 'https', 'http' respectively and store them in HTTPS1 variable
+    for item in PROTOCOL: ## convert HTTPS list with rows 'yes', 'no' to 'https', 'http' respectively and store them in HTTPS1 variable
         if item == "yes":
             print (item)
-            HTTPS1.append("https")  ## i write it like this because I'm going to concat all three components later. Right now it should print "'https':https://"
+            PROTOCOL1.append("https")  ## i write it like this because I'm going to concat all three components later. Right now it should print "'https':https://"
         else:
             print(item)
-            HTTPS1.append("http")
-    print(proxyPort, proxyIP, HTTPS)
-    return proxy_construct(proxyPort, proxyIP, HTTPS1)    ## this will start the next function and feed it the arguments proxyPort, ProxyIP, HTTPS1
+            PROTOCOL1.append("http")
+    print(proxyPort, proxyIP, PROTOCOL)
+    return proxy_construct(proxyPort, proxyIP, PROTOCOL1)    ## this will start the next function and feed it the arguments proxyPort, ProxyIP, HTTPS1
 
 
-def proxy_construct(proxyPort, proxyIP, HTTPS1):
+def proxy_construct(proxyPort, proxyIP, PROTOCOL1):
     string = ":"
     proxyPort = [string + str(int(proxy)) for proxy in proxyPort] ## concat ":" at the start of each element in the list proxyPort
     ##print(HTTPS1)
@@ -107,23 +116,24 @@ def proxy_construct(proxyPort, proxyIP, HTTPS1):
         print(PROXY)
     print(proxy_list)
     print(type(proxy_list))
-    return proxy_dict(HTTPS1, proxy_list)
+    return proxy_dict(PROTOCOL1, proxy_list)
 
-def proxy_dict(HTTPS1, proxy_list):
+def proxy_dict(PROTOCOL1, proxy_list):
     proxies_dict_list = []
-    for i in range(0, len(HTTPS1)):
-        proxies_dict = {HTTPS1[i]: proxy_list[i]}
+    for i in range(0, len(PROTOCOL1)):
+        proxies_dict = {PROTOCOL1[i]: proxy_list[i]}
         proxies_dict_list.append(proxies_dict)
-    return save_file(proxies_dict_list, HTTPS1, proxy_list)
+    return save_file(proxies_dict_list, PROTOCOL1, proxy_list)
 
-def save_file(proxies_dict_list, HTTPS1, proxy_list):
+def save_file(proxies_dict_list, PROTOCOL1, proxy_list):
     with open('proxydictlist.json', 'w') as f:
         json.dump(proxies_dict_list, f)
-    proxy_list = pd.DataFrame(list(zip(HTTPS1,proxy_list)), columns=["https", "proxy"])
+    proxy_list = pd.DataFrame(list(zip(PROTOCOL1,proxy_list)), columns=["https", "proxy"])
     proxy_list.to_csv("proxylist.csv", index=False)
     print("******************************************************")
     print(proxies_dict_list)
     print("******************************************************")
     print("scrape completed !")
 proxyINFO(df)
+
 
