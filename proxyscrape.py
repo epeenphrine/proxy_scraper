@@ -54,7 +54,6 @@ def proxyscrape():
                 proxies_list.remove(pick)
                 print(f"{pick} removed")
                 print(len(proxies_list))
-                print(Exception)
 
     else: ## if proxies_list is empty, we get our proxies without configuring urllib for using proxies
         req = urllib.request.Request(url, headers={'User-Agent': "Magic Browser"})
