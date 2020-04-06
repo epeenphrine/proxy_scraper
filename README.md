@@ -12,3 +12,13 @@ The proxies in the list are chosen at random and proxies that fail to make conne
 to run type in terminal:\
 python -i proxyscrape.py\
 proxyscrape()
+
+DOCKER: 
+
+do with bind mount: https://hub.docker.com/repository/docker/epeenphrine/proxyscrape
+
+to run and check type:
+
+docker run epeenphrine/proxyscrape
+
+
