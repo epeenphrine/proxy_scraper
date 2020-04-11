@@ -6,4 +6,4 @@ COPY . .
 
 RUN apt-get update -y && pip install pipenv && pipenv install -r requirements.txt
 
-CMD pipenv run python -c 'import proxyscrape; proxyscrape.proxyscrape()'
+CMD pipenv run python -c 'import proxyscrape; proxyscrape.proxyscrape()' && sleep 2

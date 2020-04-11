@@ -1,5 +1,10 @@
 *.json
 *.csv
 *.db
+*.txt
 Pipfile
 Pipfile.lock
+.vscode
+.git
+
+__pycache__/

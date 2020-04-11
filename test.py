@@ -1,4 +1,3 @@
-from config import url, hello_world 
+from proxyscrape import proxyscrape
 
-print(url)
-print(hello_world())
+proxyscrape()

@@ -68,7 +68,7 @@ def proxyscrape():
     print(df, len(df))
     df = df[0]  ## df is a list of tables. We want first table.
 
-    df.to_csv("proxiesraw.csv", index=True) ## saving df to csv
+    df.to_csv("proxyraw.csv", index=True) ## saving df to csv
 
     ## print(df[0].columns) ## choosing dataframe with the index 0 and checking all the columns. You may need to check columns if name of column have weird spacing and etc.
     ## df = df[0] ## setting df as the df[0] the data frame with the ip, port, and etc.
@@ -114,16 +114,30 @@ def proxy_construct(proxyPort, proxyIP, HTTPS1):
 def proxy_dict(HTTPS1, proxy_list):
     proxies_dict_list = []
     for i in range(0, len(HTTPS1)):
-        proxies_dict = {HTTPS1[i]: proxy_list[i]}
-        proxies_dict_list.append(proxies_dict)
+        if HTTPS1[i] == "https://":
+            proxies_dict = {"https": proxy_list[i]}
+            proxies_dict_list.append(proxies_dict)
+        if HTTPS1[i] == "http://":
+            proxies_dict = {"http": proxy_list[i]}
+            proxies_dict_list.append(proxies_dict)
+            
     return save_file(proxies_dict_list, HTTPS1, proxy_list)
 
 def save_file(proxies_dict_list, HTTPS1, proxy_list):
     with open('proxydictlist.json', 'w') as f:
         json.dump(proxies_dict_list, f)
-    proxy_list = pd.DataFrame(list(zip(HTTPS1,proxy_list)), columns=["https", "proxy"])
-    proxy_list.to_csv("proxylist.csv", index=False)
+    with open ("proxylist.json", "w") as f:
+        json.dump(proxy_list, f)
+    proxy_list1 = pd.DataFrame(proxy_list)
+    proxy_list1.to_csv("proxylist.csv", index=False)
+    new = []
+    for proxy in proxy_list:
+        new.append(proxy + "\n")
+    f = open("proxieslist.txt", "w")
+    f.writelines(new) 
+    f.close()
     print("******************************************************")
     print(proxies_dict_list)
     print("******************************************************")
     print("scrape completed !")
+
