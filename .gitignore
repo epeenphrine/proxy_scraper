@@ -6,5 +6,5 @@ Pipfile
 Pipfile.lock
 .vscode
 .git
-
+secrets.py
 __pycache__/

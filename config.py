@@ -1,1 +1,1 @@
-url = 'https://free-proxy-list.net/'
+url = 'https://youtube.com'

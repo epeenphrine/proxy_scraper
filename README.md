@@ -1,25 +1,24 @@
-# PROXYscraper
-scrapes  "https://free-proxy-list.net/" for proxies and store them in a dictionary format for use in other projects
-stored in proxydictlist.json
+# proxy_scraper
 
-make sure you have bs4, lxml, pandas libraries for python3 
+scrapes  "https://free-proxy-list.net/" for proxies and store them in a json, csv, txt for use in projects involved in scraping that may require proxies
 
-you can also 
+pandas was used because it was just a quick way to parse the tables for me
 
-I've configured urllib in a way so that it uses a proxy and it looks like you are using a browser.
-The proxies in the list are chosen at random and proxies that fail to make connections are removed. 
+## install libraries
 
-## run
-to run type in terminal:\
-python -i proxyscrape.py\
-proxyscrape()
+- make sure you have bs4, lxml, pandas libraries for python3 
+- you can also run `pip install -r requirements.txt` or if you have pipenv `pipenv install -r requirements.txt` to get the dependencies
+
+
+## rotation
+
+- rotation built in. It tries to make connection and any proxy that fail to make connections are removed
+
+## running
+
+- i use this in other projects so you can just import the scrape() function from proxy_scrape and it will give you the local files. Example how is shown in test.py. 
+- proxy_rotate.py will rotate proxies and headers for the URL you are interested in and give you a bs4 object as return. Import the function and run it the same way  
 
 ## Docker 
 
-do with bind mount: https://hub.docker.com/repository/docker/epeenphrine/proxyscrape
-
-to run and check type:
-
-docker run epeenphrine/proxyscrape
-
-
+there is a dockerfile, I still need to test it out
