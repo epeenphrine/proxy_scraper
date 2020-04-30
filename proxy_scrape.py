@@ -5,8 +5,6 @@ import json
 import random
 import os
 import time
-from config import url 
-
 
 
 
